@@ -1,0 +1,29 @@
+{
+  "name": "custom_nodejs_template",
+  "version": "1.0.0",
+  "description": "A templete of custom nodejs",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awjae/customNodeJS.git"
+  },
+  "keywords": [
+    "NodeJS"
+  ],
+  "author": "AW",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/awjae/customNodeJS/issues"
+  },
+  "homepage": "https://github.com/awjae/customNodeJS#readme",
+  "dependencies": {
+    "express" : "4.17.1",
+    "express-session" : "1.17.0",
+    "cors" : "2.8.5",
+    "ejs" : "3.0.1",
+    "mysql" : "2.17.1"
+  }
+}
