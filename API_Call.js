@@ -1,9 +1,9 @@
 var apiCall = {};
 
 var apiRequest = require('request');
-var apiKey_dnf = 'dnfAPIKEY';
+var apiKey_dnf = 'API_KEY';
 
-apiCall.API_Call = (method, callee) => {
+apiCall.API_Call = (method, paramsStr, callee) => {
     
     var OPTIONS = {
         headers: {'Content-Type': 'application/json'},
@@ -22,6 +22,9 @@ apiCall.API_Call = (method, callee) => {
             break;
         case 'dnfServerList' :
             HOST = 'https://api.neople.co.kr/df/servers?apikey=' + apiKey_dnf;
+            break;
+        case 'ChitTimeLine' :
+            HOST = 'https://api.neople.co.kr/df/servers/' + paramsStr + apiKey_dnf;
             break;
         default:
             HOST = 'http://localhost';
