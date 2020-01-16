@@ -1,6 +1,7 @@
 var server = require('./server');
 var database = require('./database');
 var util = require('./util');
+var apiCall = require('./API_Call');
 
 //기본 메인 페이지
 server.get('/', function(req, res) {
@@ -73,6 +74,23 @@ server.post('/postList.do', function (req, res) {
         
     });
 
+});
+
+server.get('/dnfServerList.do', function (req, res) {
+    console.log('/dnfServerList.do 요청됨');
+
+    var data = req.query;
+    console.log(req.query.characterName)
+    console.log(req.query.jobId)
+
+    var apiData = apiCall.API_Call('get', 'dnfServerList');
+    apiData.send([], function (err, result) {
+        if (!err) {
+            res.send(result);
+        } else {
+            res.send(err);
+        }
+    });
 });
 
 server.start();
