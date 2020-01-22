@@ -1,2 +1,2 @@
-## 나의 Custom NodeJS 기본 템플릿 ##
-> mysql, get, post, publicDir 요청처리
+## pgRouting을 활용한 길찾기 서비스 ##
+> postgres pgRouting을 활용한 길찾기 서비스"# pgRouting" 
