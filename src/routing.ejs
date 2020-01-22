@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
+    <script src="/routing/ol.js"></script>
+    <style>
+    .handler {
+        border: 2px solid #7777ff;
+        width: 300px;
+        height: 100px;
+        position: fixed;
+        background: rgba(120, 142, 255, 0.6);
+        border-radius: 15px;
+        z-index: 300;
+        right: 15px;
+        top: 15px;
+        justify-content: right;
+        padding: 10px;
+    }
+    .handlerRow {
+        width: 280px;
+        height: 35px;
+        margin: 10px;
+        display: flex;
+        justify-content: space-evenly;
+        background: rgba(250, 252, 255, 0.7);
+        border-radius: 15px;
+    }
+    </style>
+    <script src="/routing/routing.js" type="module"></script>
+</head>
+<body>
+    <div id="map" class="map">
+        <div class="handler">
+            <p class="handlerRow">
+                <button onclick="fnStartSetButton()"></button><span id="startLng">start : Lng ,  </span><span id="startLat">start : Lat</span id="startLng">
+            </p>
+            <p class="handlerRow">
+                <button onclick="fnEndSetButton()"></button><span id="endLng">end : Lng ,  </span><span id="endLat">end : Lat</span id="endLat">
+            </p>
+        </div>
+    </div>
+    <script>
+        function fnStartSetButton () {
+            let map = document.getElementById('map')
+            map.style.cursor = "crosshair"
+            map.dataset.use = "start"
+        }
+
+        function fnEndSetButton () {
+            let map = document.getElementById('map')
+            map.style.cursor = "crosshair"
+            map.dataset.use = "end"
+        }
+    </script>
+</body>
+</html>

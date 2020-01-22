@@ -1,52 +1,70 @@
 var database = {};
 
-var mysql = require('mysql');
+//var mysql = require('mysql');
 var util = require('./util'); // util.js안의 정보를 요청함
 
-var pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: 'root',
-    database: 'test',
-    debug: false
+var { Client } = require('pg');
+
+// var pool = mysql.createPool({
+//     connectionLimit: 10,
+//     host: 'localhost',
+//     port: 3306,
+//     user: 'root',
+//     password: 'root',
+//     database: 'test',
+//     debug: false
+// });
+const pg = new Client({
+    user : 'postgres',
+    host : 'localhost',
+    database : 'navi',
+    password : 'postgres',
+    port : 5432,
 });
+pg.connect();
 
-database.query = function(res, sql, dbParams, callback) {
-    pool.getConnection(function (err, conn) {
-        if (err) {
-            console.log('DB 연결시 에러 발생: ' + err);
+// database.query = function(res, sql, dbParams, callback) {
+//     pool.getConnection(function (err, conn) {
+//         if (err) {
+//             console.log('DB 연결시 에러 발생: ' + err);
 
-            if (conn) {
-                conn.release();
-            }
-            return;
-        }
+//             if (conn) {
+//                 conn.release();
+//             }
+//             return;
+//         }
 
-        var query = conn.query(sql, dbParams, function(err2, rows) {
-            if (conn) {
-                conn.release();
-                console.log(query.sql);
-            }
+//         var query = conn.query(sql, dbParams, function(err2, rows) {
+//             if (conn) {
+//                 conn.release();
+//                 console.log(query.sql);
+//             }
             
-            if (err2) {
-                console.log('SQL 실행시 에러 발생: ' + err2);
+//             if (err2) {
+//                 console.log('SQL 실행시 에러 발생: ' + err2);
                 
-                callback(err2, null);
+//                 callback(err2, null);
                 
-                return;
-            }
+//                 return;
+//             }
             
-            if (callback) {
-                callback(null, rows);  
-            }            
+//             if (callback) {
+//                 callback(null, rows);  
+//             }            
             
-        });
-    });
+//         });
+//     });
     
-};
-
-
-
+// };
+database.PgQuery = function(res, sql, dbParams, callback) {
+    pg.query(sql, dbParams, (err, res) => {
+        if (err) {
+            console.log(err.stack)
+            return;
+        } else {
+            console.log(res.rows[0]);
+        }
+        return;
+    });
+}
 module.exports = database;

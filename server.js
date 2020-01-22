@@ -13,6 +13,7 @@ var app = express();
 
 app.set('views',path.join(__dirname,'src'));
 app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 //렌딩 페이지 다루기
 
 //세션을 위한 초기화 작업, 등록을해주는다는 느낌
