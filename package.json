@@ -17,9 +17,9 @@
   "author": "AW",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/awjae/customNodeJS/issues"
+    "url": "https://github.com/awjae/pgRouting/issues"
   },
-  "homepage": "https://github.com/awjae/customNodeJS#readme",
+  "homepage": "https://github.com/awjae/pgRouting#readme",
   "dependencies": {
     "cors": "2.8.5",
     "ejs": "3.0.1",
