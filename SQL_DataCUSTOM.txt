@@ -266,3 +266,30 @@ WHERE node_id= '1680048300'
 
 SELECT * FROM link_test1_table WHERE id = 37351 
 SELECT * FROM moct_link WHERE gid= '281085'
+
+
+
+
+-----------------------------------------------------------------------------------------
+
+인접한 노드 찾기
+
+-----------------------------------------------------------------------------------------
+WITH  nearnodes
+     AS (SELECT *
+		FROM (SELECT ST_Intersects(ST_Transform(geom, 4326), ST_Buffer(ST_SetSRID(ST_MakePoint(126.89545333385468, 37.48126924037933),4326), 0.005, 'quad_segs=8')) nodes, gid, ST_Transform(geom, 4326) geom
+		FROM public.moct_node) a
+		WHERE a.nodes = true
+),		
+bufferPoint
+     AS (SELECT ST_SetSRID(ST_MakePoint(126.89545333385468, 37.48126924037933),4326) point
+)	
+SELECT ST_Distance(
+		nearnodes.geom ,
+		bufferPoint.point
+	) distance, nearnodes.gid gid
+FROM nearnodes, bufferPoint
+LEFT JOIN moct_node
+ON gid = moct_node.gid
+ORDER BY distance ASC
+LIMIT 1;

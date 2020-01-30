@@ -40,4 +40,3 @@ map.on('click', function(evt) {
 
   map.dataset.use = ""
 })
-
