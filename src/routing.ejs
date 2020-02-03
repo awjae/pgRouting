@@ -40,6 +40,15 @@
             display: flex;
             justify-content: center;
         }
+        .mapShade {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 500;
+            background: rgba(32, 32, 32, 0.5);
+            cursor: progress;
+            display: none;
+        }
     </style>
     <script src="/routing/ol.js"></script>
 
@@ -58,6 +67,7 @@
             </p>
             <p class="routingButton"><button onclick="getRouting()">찾기</button></p>
         </div>
+        <div class="mapShade"></div>
     </div>
     <script>
         var map = new ol.Map({

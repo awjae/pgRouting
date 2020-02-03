@@ -64,7 +64,7 @@ database.PgQuery = function(res, sql, dbParams, callback) {
             console.log('pgQuery 에러')
             return;
         } else {
-            console.log(res.rows[0]);
+            //console.log(res.rows[0]);
         }
         if (callback) {
             callback(null, res.rows);  

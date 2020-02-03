@@ -39,9 +39,14 @@ function fnEndSetButton() {
   map.dataset.use = "end"
 }
 
-
+var resGeoJson;
+var geojsonObject = {
+  'features': [],
+};
 //길찾기 
 function getRouting() {
+  document.getElementsByClassName('mapShade')[0].style.display = 'block';
+
   axios({
       method: 'get',
       url: '/startRouting.do',
@@ -51,7 +56,31 @@ function getRouting() {
       }
     })
     .then(function (response) {
-      console.log(response);
+      
+      resGeoJson = response.data.results;
+      console.log(resGeoJson)
+      
+      for (result in resGeoJson) {
+        var rows = {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'MultiLineString',
+            'coordinates': [
+            ]
+          }
+        }
+
+        var jsonResult = JSON.parse(resGeoJson[result].st_asgeojson)
+        console.log(jsonResult)
+        for (coodinate in jsonResult.coordinates) {
+          console.log(jsonResult.coordinates[coodinate])
+          rows.coordinates.push(jsonResult.coordinates[coodinate])
+        }
+
+        geojsonObject.features.push(rows)
+      }
+
+      document.getElementsByClassName('mapShade')[0].style.display = 'none';
     })
     .catch(function (error) {});
 }

@@ -63,7 +63,7 @@ server.get('/startRouting.do', function(req, res) {
                     FROM pgr_astar(
                         'SELECT id, linkId, source, target, cost, x1, y1, x2, y2, 
                         reverse_cost FROM link_test1_table ORDER BY id',
-                        93501, 93128, true, true
+                        $1, $2, true, true
                         ) 
                     ) result
                 LEFT JOIN link_test1_table link
