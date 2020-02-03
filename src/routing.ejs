@@ -13,7 +13,7 @@
         .handler {
             border: 2px solid #7777ff;
             width: 300px;
-            height: 120px;
+            height: 150px;
             position: fixed;
             background: rgba(120, 142, 255, 0.6);
             border-radius: 15px;
@@ -31,6 +31,14 @@
             display: flex;
             justify-content: space-evenly;
             background: rgba(250, 252, 255, 0.7);
+            border-radius: 15px;
+        }
+        .handlerRowSmall {
+            width: 280px;
+            height: 20px;
+            margin: 10px;
+            display: flex;
+            justify-content: space-evenly;
             border-radius: 15px;
         }
 
@@ -66,6 +74,7 @@
                     Lat</span id="endLat">
             </p>
             <p class="routingButton"><button onclick="getRouting()">찾기</button></p>
+            <p class="handlerRowSmall"><span id="distance">-</span></p>
         </div>
         <div class="mapShade"></div>
     </div>
@@ -80,7 +89,7 @@
             view: new ol.View({
                 projection: 'EPSG:4326',
                 center: [126.89536213874817, 37.48130679130554],
-                zoom: 17
+                zoom: 16
             })
         });
 

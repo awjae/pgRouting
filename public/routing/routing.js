@@ -41,10 +41,21 @@ function fnEndSetButton() {
 
 var resGeoJson;
 var geojsonObject = {
+  'type': 'FeatureCollection',
+  'crs': {
+    'type': 'name',
+    'properties': {
+      'name': 'EPSG:4326'
+    }
+  },
   'features': [],
 };
 //길찾기 
+var geoJSONLayer;
+var vectorSource;
 function getRouting() {
+  geojsonObject.features = [];
+  map.removeLayer(geoJSONLayer);
   document.getElementsByClassName('mapShade')[0].style.display = 'block';
 
   axios({
@@ -56,29 +67,36 @@ function getRouting() {
       }
     })
     .then(function (response) {
-      
+      console.log(response)
       resGeoJson = response.data.results;
-      console.log(resGeoJson)
+      document.getElementById('distance').innerHTML = (resGeoJson[0].distence / 1000 ).toFixed(2)  + ' km'
       
+      //geoJSON Data 바인딩
       for (result in resGeoJson) {
         var rows = {
           'type': 'Feature',
           'geometry': {
-            'type': 'MultiLineString',
-            'coordinates': [
-            ]
           }
         }
 
-        var jsonResult = JSON.parse(resGeoJson[result].st_asgeojson)
-        console.log(jsonResult)
-        for (coodinate in jsonResult.coordinates) {
-          console.log(jsonResult.coordinates[coodinate])
-          rows.coordinates.push(jsonResult.coordinates[coodinate])
-        }
-
+        rows.geometry = JSON.parse(resGeoJson[result].st_asgeojson)
         geojsonObject.features.push(rows)
       }
+
+      //geoJSON -> Layer
+      vectorSource = new ol.source.Vector({
+        features: (new ol.format.GeoJSON()).readFeatures(geojsonObject)
+      });
+      geoJSONLayer = new ol.layer.Vector({
+        source: vectorSource,
+        style: new ol.style.Style({
+          stroke: new ol.style.Stroke({
+            color: 'blue',
+            width: 3
+          })
+        }) 
+      });
+      map.addLayer(geoJSONLayer);
 
       document.getElementsByClassName('mapShade')[0].style.display = 'none';
     })
@@ -93,7 +111,10 @@ var vectorEndLayer;
 var vectorSource;
 var startGid;
 var endGid;
+var startNodeGeomLayer;
+var endNodeGeomLayer;
 function fnSetPoint(index, feature) {
+    document.getElementsByClassName('mapShade')[0].style.display = 'block';
     var lng;
     var lat;
     switch(index) {
@@ -122,6 +143,7 @@ function fnSetPoint(index, feature) {
             lat = endNodeLat
         break;
     }
+    
     axios({
       method: 'get',
       url: '/setClosePoint.do',
@@ -131,15 +153,62 @@ function fnSetPoint(index, feature) {
       }
     })
     .then(function (response) {
+      document.getElementsByClassName('mapShade')[0].style.display = 'none';
+      console.log(response.data.results[0].gid)
+      console.log(response.data.results[0].x)
+
+      var circleStyle = new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: 'rgba(255,0,0,0.7)'
+        }),
+        image: new ol.style.Circle({
+          radius: 5,
+          fill: null,
+          stroke: new ol.style.Stroke({
+            color: 'blue',
+            width : 3
+          })
+        })
+      })
+
       switch(index) {
         case 0 : 
+          map.removeLayer(startNodeGeomLayer);
           startGid = response.data.results[0].gid
+          var startNodeGeom = new ol.Feature({
+            geometry: new ol.geom.Point([response.data.results[0].x, response.data.results[0].y]),
+            name: 'satrt',
+            population: 4000,
+            rainfall: 500
+          });
+          startNodeGeom.setStyle(circleStyle);
+          var startNodeGeomSource = new ol.source.Vector({
+            features : [startNodeGeom]
+          })
+          startNodeGeomLayer = new ol.layer.Vector({
+            source: startNodeGeomSource
+          });
+          map.addLayer(startNodeGeomLayer);
         break;
         case 1 :
+          map.removeLayer(endNodeGeomLayer);
           endGid = response.data.results[0].gid
+          var endNodeGeom = new ol.Feature({
+            geometry: new ol.geom.Point([response.data.results[0].x, response.data.results[0].y]),
+            name: 'satrt',
+            population: 4000,
+            rainfall: 500
+          });
+          endNodeGeom.setStyle(circleStyle);
+          var endNodeGeomSource = new ol.source.Vector({
+            features : [endNodeGeom]
+          })
+          endNodeGeomLayer = new ol.layer.Vector({
+            source: endNodeGeomSource
+          });
+          map.addLayer(endNodeGeomLayer);
         break;
-    }
-
+      }      
     })
     .catch(function (error) {});
     

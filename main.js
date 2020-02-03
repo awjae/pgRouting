@@ -34,7 +34,7 @@ server.get('/setClosePoint.do', function(req, res) {
             SELECT ST_Distance(
             nearnodes.geom ,
             bufferPoint.point
-            ) distance, nearnodes.gid gid
+            ) distance, nearnodes.gid gid, ST_X(nearnodes.geom) X, ST_Y(nearnodes.geom) Y
             FROM nearnodes, bufferPoint
             LEFT JOIN moct_node
             ON gid = moct_node.gid
