@@ -57,14 +57,18 @@ pg.connect();
     
 // };
 database.PgQuery = function(res, sql, dbParams, callback) {
+
     pg.query(sql, dbParams, (err, res) => {
         if (err) {
             console.log(err.stack)
+            console.log('pgQuery 에러')
             return;
         } else {
             console.log(res.rows[0]);
         }
-        return;
+        if (callback) {
+            callback(null, res.rows);  
+        }    
     });
 }
 module.exports = database;
