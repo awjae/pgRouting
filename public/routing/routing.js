@@ -143,7 +143,6 @@ function fnSetPoint(index, feature) {
             lat = endNodeLat
         break;
     }
-    
     axios({
       method: 'get',
       url: '/setClosePoint.do',
